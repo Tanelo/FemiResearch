@@ -1,10 +1,13 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:fetch_voice_data/constants.dart';
+import 'package:fetch_voice_data/firebase/firbase_api.dart';
 import 'package:fetch_voice_data/utils_ui.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
+  final String userId;
   const MyHomePage({
+    required this.userId,
     Key? key,
   }) : super(key: key);
 
@@ -69,8 +72,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     double dmax = 80;
     double padding = 20;
     List<double> radii = [2 * (dmax + padding), 4 * dmax + 2 * padding];
-    coords = defineCoords(imagesUrls.length, Constants.height,
-        Constants.width * 0.965, dmax, padding);
+    coords = defineCoords(
+        imagesUrls.length, Constants.height, Constants.width, dmax, padding);
     List<Widget> circles = radii
         .map(
           (radius) => Center(
