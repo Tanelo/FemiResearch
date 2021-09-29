@@ -3,8 +3,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'constants.dart';
-
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -16,19 +14,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    height = MediaQuery.of(context).size.height;
-    width = MediaQuery.of(context).size.width;
-    print(width);
-    print(height);
-
-    return ScreenUtilInit(
-      designSize: Size(360, 690),
-      builder: () => MaterialApp(
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: MyHomePage(width: width, height: height),
-      ),
+    return const MaterialApp(
+      home: MyHomePage(),
     );
+    // return ScreenUtilInit(
+    //   designSize: Size(360, 690),
+    //   builder: () => MaterialApp(
+    //     theme: ThemeData(
+    //       primarySwatch: Colors.blue,
+    //     ),
+    //     home: MyHomePage(),
+    //   ),
+    // );
   }
 }

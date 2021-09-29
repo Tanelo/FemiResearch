@@ -3,12 +3,8 @@ import 'package:fetch_voice_data/utils_ui.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
-  final double width;
-  final double height;
   const MyHomePage({
     Key? key,
-    required this.width,
-    required this.height,
   }) : super(key: key);
 
   @override
@@ -33,10 +29,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     "https://www.the-sun.com/wp-content/uploads/sites/6/2020/02/DD-COMPOSITE-EYE-ROLL-EMOJI-2.jpg?strip=all&quality=100&w=1200&h=800&crop=1",
   ];
 
-  late double width;
-  late double height;
   List<Widget> widgets = [];
   List<Map<String, double>> coords = [];
+
+  final double height = 667;
+  final double width = 860;
 
   @override
   void dispose() {
@@ -48,6 +45,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+
     animationControllerShadow = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 300),
@@ -67,8 +65,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     );
     animationControllerSize.repeat();
 
-    width = widget.width;
-    height = widget.height;
     int n = imagesUrls.length;
     double d = 1 / (n + 1);
     List<double> delays = List.generate(n, (index) => d * index);
@@ -140,6 +136,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+    print(height);
+    print(width);
     return Scaffold(
       body: Container(
         height: height,

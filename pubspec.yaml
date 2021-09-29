@@ -38,6 +38,7 @@ dependencies:
   scidart: ^0.0.2-dev.4
   flutter_screenutil: ^5.0.0+2
   # flutter_sound: ^8.3.12
+  firebase_storage: ^10.0.4
 
 
   # The following adds the Cupertino Icons font to your application.
