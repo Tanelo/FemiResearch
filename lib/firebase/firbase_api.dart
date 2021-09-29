@@ -7,7 +7,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 class FirebaseApi {
   static Future<void> addVoice(Voice voice, String voiceFilePath) async {
-    
     // Put voice in Storage
     final _firebaseStorage = FirebaseStorage.instance;
     var file = File(voiceFilePath);
@@ -15,14 +14,16 @@ class FirebaseApi {
     //Upload to Firebase
     var snapshot = await _firebaseStorage
         .ref()
-        .child('voices/${voice.id}|${voice.userId}|${voice.state.toString()}.wav')
+        .child(
+            'voices/${voice.id}|${voice.userId}|${voice.state.toString()}.wav')
         .putFile(file);
     var voiceUrl = await snapshot.ref.getDownloadURL();
 
     // Update voice in firestore
-     DocumentReference docRef =
-        await FirebaseFirestore.instance.collection('voices').add(voice.toJson());
-      Voice newVoice = Voice(
+    DocumentReference docRef = await FirebaseFirestore.instance
+        .collection('voices')
+        .add(voice.toJson());
+    Voice newVoice = Voice(
       id: docRef.id,
       userId: voice.userId,
       state: voice.state,
@@ -34,7 +35,9 @@ class FirebaseApi {
 }
 
 class FireAuth {
-  static Future<void> signIn() async {
-    UserCredential userCredential = await FirebaseAuth.instance.signInAnonymously();
+  static Future<String> signIn() async {
+    UserCredential userCredential =
+        await FirebaseAuth.instance.signInAnonymously();
+    return userCredential.user!.uid;
   }
 }

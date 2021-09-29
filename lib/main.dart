@@ -1,4 +1,5 @@
 import 'package:fetch_voice_data/constants.dart';
+import 'package:fetch_voice_data/firebase/firbase_api.dart';
 import 'package:fetch_voice_data/home_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,34 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const MyHomePage(),
+        home: FutureBuilder<String>(
+            future: FireAuth.signIn(),
+            builder: (context, snapshot) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.done:
+                  if (snapshot.hasData) {
+                    String userId = snapshot.data!;
+                    return MyHomePage(
+                      userId: userId,
+                    );
+                  } else {
+                    return const Scaffold(
+                        body: Center(child: Text("There was an error")));
+                  }
+                case ConnectionState.waiting:
+                  return const Scaffold(
+                    body: Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.black,
+                        strokeWidth: 2.2,
+                      ),
+                    ),
+                  );
+                default:
+                  return const Scaffold(
+                      body: Center(child: Text("There was an error")));
+              }
+            }),
       ),
     );
   }
