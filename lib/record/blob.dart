@@ -5,8 +5,12 @@ class Blob extends StatelessWidget {
   final double scale;
   final Color color;
 
-  const Blob(
-      {Key? key, this.rotation = 0, this.scale = 1, required this.color});
+  const Blob({
+    Key? key,
+    this.rotation = 0,
+    this.scale = 1,
+    required this.color,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Transform.scale(

@@ -1,9 +1,9 @@
 # This is a generated file; do not edit or check into version control.
-cloud_firestore=/Users/tanelopto/.pub-cache/hosted/pub.dartlang.org/cloud_firestore-2.5.3/
-cloud_firestore_web=/Users/tanelopto/.pub-cache/hosted/pub.dartlang.org/cloud_firestore_web-2.4.3/
-firebase_auth=/Users/tanelopto/.pub-cache/hosted/pub.dartlang.org/firebase_auth-3.1.2/
-firebase_auth_web=/Users/tanelopto/.pub-cache/hosted/pub.dartlang.org/firebase_auth_web-3.1.1/
-firebase_core=/Users/tanelopto/.pub-cache/hosted/pub.dartlang.org/firebase_core-1.7.0/
-firebase_core_web=/Users/tanelopto/.pub-cache/hosted/pub.dartlang.org/firebase_core_web-1.1.0/
-firebase_storage=/Users/tanelopto/.pub-cache/hosted/pub.dartlang.org/firebase_storage-10.0.4/
-firebase_storage_web=/Users/tanelopto/.pub-cache/hosted/pub.dartlang.org/firebase_storage_web-3.0.3/
+cloud_firestore=/Users/samuellerman/development/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_firestore-2.5.3/
+cloud_firestore_web=/Users/samuellerman/development/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_firestore_web-2.4.3/
+firebase_auth=/Users/samuellerman/development/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth-3.1.2/
+firebase_auth_web=/Users/samuellerman/development/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth_web-3.1.1/
+firebase_core=/Users/samuellerman/development/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core-1.7.0/
+firebase_core_web=/Users/samuellerman/development/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core_web-1.1.0/
+firebase_storage=/Users/samuellerman/development/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_storage-10.0.4/
+firebase_storage_web=/Users/samuellerman/development/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_storage_web-3.0.3/

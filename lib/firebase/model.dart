@@ -22,4 +22,4 @@ class Voice {
       };
 }
 
-enum VoiceState { angry, happy, sad, disgust, surprised, fear }
+enum VoiceState { angry, happy, sad, disgust, surprised, fear, neutral, pensive, funny, illuminated, love}

@@ -17,11 +17,9 @@ class NodeDisposition {
     double dmax,
     double currentRadius,
   ) {
-    List<Map<String, double>> coords = [
-      {"x": width * 0.5, "y": (height * 0.5), "size": dmax}
-    ];
+    List<Map<String, double>> coords = [];
     if (count > 1 && count <= 4) {
-      List<double> thetas = findThetas(count - 1, 0, 2 * pi);
+      List<double> thetas = findThetas(count, 0, 2 * pi);
       coords
           .addAll(coordsFromTheta(thetas, currentRadius, width, height, dmax));
     }
