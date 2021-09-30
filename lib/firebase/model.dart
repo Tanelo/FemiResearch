@@ -1,14 +1,14 @@
 class Voice {
   String? id;
   String? url;
-  String? userId;
+  final String userId;
   final VoiceState state;
   final DateTime createdAt;
 
   Voice({
     this.id,
     this.url,
-    this.userId,
+    required this.userId,
     required this.state,
     DateTime? createdAt,
   }) : createdAt = createdAt ?? DateTime.now();
@@ -17,7 +17,7 @@ class Voice {
         "id": id,
         "url": url,
         "userId": userId,
-        "state": state,
+        "state": state.index,
         "createdAt": createdAt,
       };
 }

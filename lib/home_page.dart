@@ -1,8 +1,11 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:fetch_voice_data/constants.dart';
 import 'package:fetch_voice_data/firebase/firbase_api.dart';
-import 'package:fetch_voice_data/utils_ui.dart';
+import 'package:fetch_voice_data/record/record_home.dart';
+import 'package:fetch_voice_data/utils/utils_ui.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class MyHomePage extends StatefulWidget {
   final String userId;
@@ -47,6 +50,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   void initState() {
     super.initState();
 
+    Future.delayed(const Duration(seconds: 2), () {
+      if (pc.isAttached) {
+        pc.open();
+      }
+    });
+
     animationControllerShadow = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 300),
@@ -72,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     double dmax = 80;
     double padding = 20;
     List<double> radii = [2 * (dmax + padding), 4 * dmax + 2 * padding];
-    coords = defineCoords(
+    coords = NodeDisposition.defineCoords(
         imagesUrls.length, Constants.height, Constants.width, dmax, padding);
     List<Widget> circles = radii
         .map(
@@ -133,6 +142,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     widgets.addAll(storyCards);
   }
 
+  PanelController pc = PanelController();
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -140,77 +151,151 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     print(height);
     print(width);
     return Scaffold(
-      body: Container(
-        height: height,
-        width: width,
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-          begin: Alignment.topRight,
-          end: Alignment.bottomLeft,
-          colors: [
-            Colors.pink[400]!.withOpacity(0.800),
-            Colors.blue[300]!.withOpacity(0.800),
-          ],
-        )),
-        child: Stack(
-          children: [
-            Stack(
-              children: widgets,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                      top: height * 0.12,
-                      left: width * 0.07,
-                      right: width * 0.05),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Welcome to Femi",
-                        style: TextStyle(
-                          fontFamily: "MuseoSans700",
-                          color: Colors.white,
-                          fontSize: width * 0.07,
-                          fontWeight: FontWeight.bold,
+      body: SlidingUpPanel(
+        controller: pc,
+        minHeight: 0,
+        maxHeight: 360,
+        backdropEnabled: true,
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(24),
+          topRight: Radius.circular(24),
+        ),
+        panel: panel(),
+        body: Container(
+          height: height,
+          width: width,
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: [
+              Colors.pink[400]!.withOpacity(0.800),
+              Colors.blue[300]!.withOpacity(0.800),
+            ],
+          )),
+          child: Stack(
+            children: [
+              Stack(
+                children: widgets,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(
+                        top: height * 0.12,
+                        left: width * 0.07,
+                        right: width * 0.05),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Welcome to Femi",
+                          style: TextStyle(
+                            fontFamily: "MuseoSans700",
+                            color: Colors.white,
+                            fontSize: width * 0.07,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
 
-                      // GestureDetector(
-                      //   onTap: () {
-                      //     Navigator.push(
-                      //         context,
-                      //         MaterialPageRoute(
-                      //             builder: (context) => AddMessagePage(
-                      //                 myUser: widget.myUser,
-                      //                 relationships: widget.relationships,
-                      //                 friends: friends)));
-                      //   },
-                      //   child: Row(
-                      //     children: [
-                      //       Icon(
-                      //         Icons.message_rounded,
-                      //         color: Colors.grey[750],
-                      //         size: 30,
-                      //       ),
-                      //       Icon(
-                      //         Icons.person_search_outlined,
-                      //         size: 30,
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
-                    ],
+                        // GestureDetector(
+                        //   onTap: () {
+                        //     Navigator.push(
+                        //         context,
+                        //         MaterialPageRoute(
+                        //             builder: (context) => AddMessagePage(
+                        //                 myUser: widget.myUser,
+                        //                 relationships: widget.relationships,
+                        //                 friends: friends)));
+                        //   },
+                        //   child: Row(
+                        //     children: [
+                        //       Icon(
+                        //         Icons.message_rounded,
+                        //         color: Colors.grey[750],
+                        //         size: 30,
+                        //       ),
+                        //       Icon(
+                        //         Icons.person_search_outlined,
+                        //         size: 30,
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
+                      ],
+                    ),
+                  ),
+
+                  // } else {
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget panel() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Text(
+            "Hi! We are thrilled to have you here",
+            style: TextStyle(
+              // fontFamily: "MuseoSans700",
+              fontSize: 20,
+              color: Colors.deepPurple[300]!,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 30),
+          Text(
+            "We are FEMI, a soon to be vocal experience where you will be connected to content you might like and on which you will be able to discuss with other people. \n\nIn order for us to launch this experience, we need you to record your voice with different moods. This will allow us to give you the content you want according to your mood.",
+            textAlign: TextAlign.justify,
+            style: TextStyle(
+              // fontFamily: "MuseoSans700",
+              fontWeight: FontWeight.w500,
+              fontSize: 16,
+              color: Colors.deepPurple[200]!,
+            ),
+          ),
+          const SizedBox(height: 30),
+          Align(
+            alignment: Alignment.center,
+            child: RawMaterialButton(
+              elevation: 2.0,
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const RecordHome()));
+              },
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30),
+              ),
+              fillColor: Colors.deepPurple[300]!,
+              child: const SizedBox(
+                width: 120,
+                child: Center(
+                  child: Text(
+                    "Let's go",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      // fontFamily: "MuseoSans700"),
+                    ),
                   ),
                 ),
-
-                // } else {
-              ],
+              ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
