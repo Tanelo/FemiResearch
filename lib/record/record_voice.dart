@@ -164,83 +164,24 @@ class _RecordPageState extends State<RecordPage> with TickerProviderStateMixin {
         .values
         .toList();
     allWidgets = [
-          const Align(alignment: Alignment.center, child: VoiceButton()),
+          // const Align(alignment: Alignment.center, child: VoiceButton()),
           circle
         ] +
         imageCards;
-    // List<Widget> circles = radii
-    //     .map((radius) => Align(
-    //           alignment: Alignment.center,
-    //           child: DottedBorder(
-    //             borderType: BorderType.Circle,
-    //             color: Colors.white,
-    //             dashPattern: const [10, 5],
-    //             strokeWidth: 1,
-    //             child: Container(
-    //               height: 2 * radius,
-    //               width: 2 * radius,
-    //               decoration: const BoxDecoration(
-    //                 shape: BoxShape.circle,
-    //                 color: Colors.transparent,
-    //               ),
-    //             ),
-    //           ),
-    //         ))
-    //     .toList();
-
-    // List<Widget> storyCards = coords
-    //     .asMap()
-    //     .map((index, coord) {
-    //       return MapEntry(
-    //         index,
-    //         Positioned(
-    //           bottom: coord["y"]! - (coord["size"]! ~/ 2),
-    //           left: coord["x"]! - (coord["size"]! ~/ 2),
-    //           child: ScaleTransition(
-    //             scale: BackAndForthTween(
-    //               begin: 0.90,
-    //               end: 1.00,
-    //               delay: delays.elementAt(index),
-    //             ).animate(animationControllerSize),
-    //             child: Container(
-    //               height: coord["size"]!,
-    //               width: coord["size"]!,
-    //               decoration: BoxDecoration(
-    //                 boxShadow: [
-    //                   BoxShadow(
-    //                       color: Colors.purple[100]!.withOpacity(0.92),
-    //                       offset: const Offset(0.0, 3.0),
-    //                       blurRadius: 25)
-    //                 ],
-    //                 shape: BoxShape.circle,
-    //                 image: DecorationImage(
-    //                   fit: BoxFit.cover,
-    //                   image: NetworkImage(imagesUrls.elementAt(index)),
-    //                 ),
-    //               ),
-    //             ),
-    //           ),
-    //         ),
-    //       );
-    //     })
-    //     .values
-    //     .toList();
-    // widgets.addAll(circles);
-    // widgets.addAll(storyCards);
-    // cwidget = NodeDisposition.circleWidget(
-    //     n, widget.width, dmax, radii.first, imagesUrls);
   }
 
   @override
   Widget build(BuildContext context) {
+    // allWidgets
+    //     .add(const Align(alignment: Alignment.center, child: VoiceButton()));
     return Scaffold(
       backgroundColor: backgroundColor,
       body: Column(
         children: [
           const Padding(
-            padding: EdgeInsets.only(top: 30, left: 20, right: 20),
+            padding: EdgeInsets.only(top: 40, left: 20, right: 20),
             child: Text(
-              "Tape sur le bouton centrale \npour enregistrer ta voix",
+              "Tape sur le bouton central \npour enregistrer ta voix",
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.white,
@@ -260,12 +201,13 @@ class _RecordPageState extends State<RecordPage> with TickerProviderStateMixin {
             ),
           ),
           SizedBox(
-            width: widget.width,
-            height: widget.width,
-            child: Stack(
-              children: allWidgets,
-            ),
-          ),
+              width: widget.width,
+              height: widget.width,
+              child: Stack(
+                children: allWidgets +
+                    [Align(alignment: Alignment.center, child: VoiceButton())],
+              )),
+          // VoiceButton(),
         ],
       ),
 

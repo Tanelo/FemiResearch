@@ -55,7 +55,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     super.initState();
     double height = widget.height;
     double width = widget.width;
-    Future.delayed(const Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 4), () {
       if (pc.isAttached) {
         pc.open();
       }
@@ -278,6 +278,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                     context,
                     MaterialPageRoute(
                         builder: (context) => RecordHome(
+                              userId: widget.userId,
                               width: widget.width,
                               height: widget.height,
                             )));

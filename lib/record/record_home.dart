@@ -1,4 +1,5 @@
 import 'package:fetch_voice_data/constants.dart';
+import 'package:fetch_voice_data/firebase/firbase_api.dart';
 import 'package:fetch_voice_data/firebase/model.dart';
 import 'package:fetch_voice_data/record/record_voice.dart';
 import 'package:fetch_voice_data/utils/utils.dart';
@@ -6,10 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class RecordHome extends StatefulWidget {
+  final String userId;
   final double height;
   final double width;
   const RecordHome({
     Key? key,
+    required this.userId,
     required this.width,
     required this.height,
   }) : super(key: key);
@@ -111,7 +114,7 @@ class _RecordHomeState extends State<RecordHome> {
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.deepPurple[200],
-                fontSize: 16,
+                fontSize: 18,
               ),
             ),
           ),
@@ -123,29 +126,68 @@ class _RecordHomeState extends State<RecordHome> {
               RawMaterialButton(
                 elevation: 2.0,
                 onPressed: () async {
+                  if (voiceFile != null) {
+                    Voice voice = Voice(
+                        text: text2Say,
+                        userId: widget.userId,
+                        state: VoiceState.values.elementAt(_selectedPageIndex));
+                    await FirebaseApi.addVoice(voiceFile!, voice);
+                    setState(() {
+                      voiceFile = null;
+                    });
+
+                    if (_selectedPageIndex == pages.length - 1) {
+                      setState(() {
+                        _selectedPageIndex = 0;
+                      });
+                      await pc.close();
+                      await pageController.animateToPage(
+                        0,
+                        duration: const Duration(milliseconds: 2000),
+                        curve: Curves.easeInOutQuad,
+                      );
+                      Navigator.pop(context);
+                    } else {
+                      pageController.animateToPage(
+                        _selectedPageIndex >= pages.length
+                            ? 0
+                            : _selectedPageIndex + 1,
+                        duration: const Duration(milliseconds: 400),
+                        curve: Curves.easeInOutQuad,
+                      );
+                    }
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        margin:
+                            EdgeInsets.only(bottom: 20, left: 30, right: 30),
+                        elevation: 2.0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0),
+                        ),
+                        behavior: SnackBarBehavior.floating,
+                        backgroundColor: Colors.red,
+                        padding: EdgeInsets.symmetric(horizontal: 15),
+                        content: Container(
+                          height: 40,
+                          child: Center(
+                            child: Text(
+                              "Tu dois enregistrer un vocal pour passer au suivant !!",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                        ),
+                        duration: Duration(milliseconds: 1300),
+                      ),
+                    );
+                  }
+
                   // pageController.jumpToPage(
                   //   _selectedPageIndex >= pages.length ? 0 : _selectedPageIndex + 1,
                   // );
-                  if (_selectedPageIndex == pages.length - 1) {
-                    setState(() {
-                      _selectedPageIndex = 0;
-                    });
-                    await pc.close();
-                    await pageController.animateToPage(
-                      0,
-                      duration: const Duration(milliseconds: 2000),
-                      curve: Curves.easeInOutQuad,
-                    );
-                    Navigator.pop(context);
-                  } else {
-                    pageController.animateToPage(
-                      _selectedPageIndex >= pages.length
-                          ? 0
-                          : _selectedPageIndex + 1,
-                      duration: const Duration(milliseconds: 400),
-                      curve: Curves.easeInOutQuad,
-                    );
-                  }
                 },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),

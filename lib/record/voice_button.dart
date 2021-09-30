@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../constants.dart';
+
 class VoiceButton extends StatefulWidget {
   const VoiceButton({Key? key}) : super(key: key);
 
@@ -57,6 +59,8 @@ class _VoiceButtonState extends State<VoiceButton> {
       setState(() {
         if (_mPath != null) {
           voiceFilePath = _mPath;
+          // print(voiceFilePath);
+          voiceFile = File(voiceFilePath!);
         }
       });
       print(voiceFilePath);
@@ -101,13 +105,14 @@ class _VoiceButtonState extends State<VoiceButton> {
       height: 100,
       width: 100,
       child: PlayButton(
-        
         pauseIcon: const Icon(Icons.mic, color: Colors.black, size: 30),
         playIcon: const Icon(Icons.mic_off, color: Colors.black, size: 30),
         onPressed: () async {
           if (!alreadyTapped) {
+            // print("je suis la ");
             await _onRecordButtonPressed();
           } else {
+            // print("je ne suis pas là");
             await _onRecordButtonPressed();
           }
           setState(() {

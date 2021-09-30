@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:fetch_voice_data/firebase/model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/animation/animation_controller.dart';
+
+File? voiceFile;
 
 class Constants {
   static const double height = 926;
