@@ -9,8 +9,12 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class MyHomePage extends StatefulWidget {
   final String userId;
+  final double height;
+  final double width;
   const MyHomePage({
     required this.userId,
+    required this.height,
+    required this.width,
     Key? key,
   }) : super(key: key);
 
@@ -49,7 +53,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-
+    double height = widget.height;
+    double width = widget.width;
     Future.delayed(const Duration(seconds: 2), () {
       if (pc.isAttached) {
         pc.open();
@@ -82,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     double padding = 20;
     List<double> radii = [2 * (dmax + padding), 4 * dmax + 2 * padding];
     coords = NodeDisposition.defineCoords(
-        imagesUrls.length, Constants.height, Constants.width, dmax, padding);
+        imagesUrls.length, height, width, dmax, padding);
     List<Widget> circles = radii
         .map(
           (radius) => Center(
@@ -148,13 +153,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    print(height);
-    print(width);
+    // print(height);
+    // print(width);
     return Scaffold(
       body: SlidingUpPanel(
         controller: pc,
         minHeight: 0,
-        maxHeight: 360,
+        maxHeight: height * 0.5,
         backdropEnabled: true,
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(24),
@@ -162,8 +167,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         ),
         panel: panel(),
         body: Container(
-          height: height,
-          width: width,
+          height: Constants.height,
+          width: Constants.width,
           decoration: BoxDecoration(
               gradient: LinearGradient(
             begin: Alignment.topRight,
@@ -182,19 +187,18 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(
-                        top: height * 0.12,
-                        left: width * 0.07,
-                        right: width * 0.05),
+                    padding:
+                        const EdgeInsets.only(top: 100, left: 20, right: 20),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      children: const [
                         Text(
-                          "Welcome to Femi",
+                          "Bienvenue sur Femi",
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                             fontFamily: "MuseoSans700",
                             color: Colors.white,
-                            fontSize: width * 0.07,
+                            fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -273,7 +277,10 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const RecordHome()));
+                        builder: (context) => RecordHome(
+                              width: widget.width,
+                              height: widget.height,
+                            )));
               },
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30),

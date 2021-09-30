@@ -1,28 +1,26 @@
 import 'dart:math' show pi;
-
+import 'package:fetch_voice_data/record/blob.dart';
 import 'package:flutter/material.dart';
 
-import 'blob.dart';
-
 class PlayButton extends StatefulWidget {
-  final ValueNotifier<bool> initialIsPlaying;
+  final bool initialIsPlaying;
   final Icon playIcon;
   final Icon pauseIcon;
   final Gradient gradient;
   final VoidCallback onPressed;
 
-  const PlayButton({
-    Key? key,
-    required this.initialIsPlaying,
-    this.playIcon = const Icon(
-      Icons.play_arrow,
-    ),
-    this.pauseIcon = const Icon(
-      Icons.pause,
-    ),
-    required this.gradient,
-    required this.onPressed,
-  }) : super(key: key);
+  const PlayButton(
+      {Key? key,
+      this.initialIsPlaying = false,
+      this.playIcon = const Icon(
+        Icons.play_arrow,
+      ),
+      this.pauseIcon = const Icon(
+        Icons.pause,
+      ),
+      required this.gradient,
+      required this.onPressed})
+      : super(key: key);
   @override
   _PlayButtonState createState() => _PlayButtonState();
 }
@@ -36,8 +34,6 @@ class _PlayButtonState extends State<PlayButton> with TickerProviderStateMixin {
   late AnimationController _scaleController;
 
   late bool isPlaying;
-  bool play = false;
-  bool isFirst = true;
   double _rotation = 0;
   double _scale = 1;
 
@@ -50,9 +46,7 @@ class _PlayButtonState extends State<PlayButton> with TickerProviderStateMixin {
   @override
   //on initie les controllers
   void initState() {
-    isPlaying = widget.initialIsPlaying.value;
-    //print(isPlaying);
-
+    isPlaying = widget.initialIsPlaying;
     _rotationController =
         AnimationController(vsync: this, duration: _kRotationDuration)
           ..addListener(() => setState(_updateRotation))
@@ -64,9 +58,6 @@ class _PlayButtonState extends State<PlayButton> with TickerProviderStateMixin {
           ..addListener(() => setState(_updateScale));
     //listener pour le faire reconstruire (update rotation)
 
-    if (isPlaying) {
-      _onToggle();
-    }
     super.initState();
   }
 
@@ -84,81 +75,52 @@ class _PlayButtonState extends State<PlayButton> with TickerProviderStateMixin {
     widget.onPressed();
   }
 
+  Widget _buildIcon(bool isPlaying) {
+    return SizedBox.expand(
+      key: ValueKey<bool>(isPlaying),
+      child: IconButton(
+        icon: isPlaying ? widget.pauseIcon : widget.playIcon,
+        onPressed: _onToggle,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    // play = widget.initialIsPlaying;
-    // if (isFirst) {
-    //   isFirst = false;
-    //   if (play) {
-    //     _onToggle();
-    //   }
-    //}
-
     return ConstrainedBox(
       constraints: BoxConstraints(minWidth: 48, minHeight: 48),
-      child: ValueListenableBuilder<bool>(
-          valueListenable: widget.initialIsPlaying,
-          builder: (context, value, child) {
-            isPlaying = value;
-
-            WidgetsBinding.instance!.addPostFrameCallback((_) {
-              if (mounted) {
-                if (!_scaleController.isAnimating) {
-                  if (!isPlaying) {
-                    _scaleController.reverse();
-                  }
-                }
-                if (isFirst) {
-                  if (isPlaying) {
-                    _onToggle();
-                    isFirst = false;
-                  }
-                }
-              }
-            });
-            //print(isPlaying);
-            return Stack(
-              alignment: Alignment.center,
-              children: [
-                if (_showWaves) ...[
-                  Blob(
-                      color: Color(0xff0092ff),
-                      scale: _scale,
-                      rotation: _rotation),
-                  Blob(
-                      color: Color(0xff4ac7b7),
-                      scale: _scale,
-                      rotation: _rotation * 2 - 30),
-                  Blob(
-                      color: Color(0xffa4a6f6),
-                      scale: _scale,
-                      rotation: _rotation * 3 - 45),
-                  Blob(
-                      color: Colors.pink,
-                      scale: _scale,
-                      rotation: _rotation * 3 - 50),
-                ],
-                Container(
-                  constraints: BoxConstraints.expand(),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: widget.gradient,
-                    // gradient: Palette.backgroundGradient,
-                  ),
-                  child: AnimatedSwitcher(
-                    child: SizedBox.expand(
-                      key: ValueKey<bool>(isPlaying),
-                      child: IconButton(
-                        icon: isPlaying ? widget.pauseIcon : widget.playIcon,
-                        onPressed: _onToggle,
-                      ),
-                    ),
-                    duration: _kToggleDuration,
-                  ),
-                ),
-              ],
-            );
-          }),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          if (_showWaves) ...[
+            Blob(color: Color(0xff0092ff), scale: _scale, rotation: _rotation),
+            Blob(
+                color: Color(0xff4ac7b7),
+                scale: _scale,
+                rotation: _rotation * 2 - 30),
+            Blob(
+                color: Color(0xffa4a6f6),
+                scale: _scale,
+                rotation: _rotation * 3 - 45),
+            Blob(
+                color: Colors.pink,
+                scale: _scale,
+                rotation: _rotation * 3 - 50),
+          ],
+          Container(
+            constraints: BoxConstraints.expand(),
+            child: AnimatedSwitcher(
+              child: _buildIcon(isPlaying),
+              duration: _kToggleDuration,
+            ),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              gradient: widget.gradient,
+              // gradient: Palette.backgroundGradient,
+            ),
+          ),
+        ],
+      ),
     );
   }
 

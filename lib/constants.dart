@@ -20,12 +20,12 @@ class Constants {
     VoiceState.sad: [
       "https://i.pinimg.com/564x/1d/90/44/1d90444c8e8c35bff0bf6c717ca7f302.jpg",
       "https://images1.vinted.net/t/01_00e19_gDwu3f5jawhQpkteZRk21nEw/1598465177.jpeg?s=a0e885fe37255b6790de2abe734f3b8807b01f6a",
-      "https://i.pinimg.com/236x/f1/7b/22/f17b2266af62722d15ef339822e94afe.jpg",
+      // "https://i.pinimg.com/236x/f1/7b/22/f17b2266af62722d15ef339822e94afe.jpg",
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTw0N1dBbRYiCa2DMs8UK8QH2TSmFtqqBGOgw&usqp=CAU",
     ],
     VoiceState.disgust: [
       "https://i2-prod.dailystar.co.uk/incoming/article21485347.ece/ALTERNATES/s1200c/0_Eye-Roll-Memoji.jpg",
-      "https://ih1.redbubble.net/image.1940530006.0097/st,small,507x507-pad,600x600,f8f8f8.u1.jpg",
+      // "https://ih1.redbubble.net/image.1940530006.0097/st,small,507x507-pad,600x600,f8f8f8.u1.jpg",
       "https://s3.tradingview.com/userpics/5938085-fBpW_orig.png",
       "https://i.pinimg.com/236x/8f/b2/cc/8fb2ccfca070beb6a9fb336793a95b92.jpg",
     ],
@@ -37,7 +37,7 @@ class Constants {
     VoiceState.fear: [
       "https://www.thurrott.com/wp-content/uploads/sites/2/2019/02/memoji.jpg",
       "https://i.pinimg.com/236x/cf/d3/d6/cfd3d684c645186edef709e4ccd144eb.jpg",
-      "https://static.wikia.nocookie.net/59b8082d-9d77-49a5-8b30-097b954b77d8/scale-to-width/755",
+      // "https://static.wikia.nocookie.net/59b8082d-9d77-49a5-8b30-097b954b77d8/scale-to-width/755",
       "https://d38we5ntdyxyje.cloudfront.net/1327961/profile/ZANPJRBL_avatar_medium_square.jpg",
     ],
     VoiceState.neutral: [
@@ -80,8 +80,8 @@ class Constants {
       "Ça fait une heure que je suis sur cet exo je comprends rien."
     ],
     VoiceState.happy: [
-      "Oh je suis tellement content(e), faut que je te raconte le truc qui vient de m'arriver."
-          "T'as pas idée à quel point ça me fait plaisir que tu viennes ce soir",
+      "Oh je suis tellement content(e), faut que je te raconte le truc qui vient de m'arriver.",
+      "T'as pas idée à quel point ça me fait plaisir que tu viennes ce soir",
       "J'étais enchanté(e) de te voir tout à l'heure, c'était un trop bon moment",
       "La session de surf était tellement bien tout à l'heure, il y avait des bonnes vagues, du soleil, tout était parfait !"
     ],
@@ -105,7 +105,7 @@ class Constants {
     VoiceState.fear: [
       "Faut que je te raconte, il y a un gars super bizarre qui m'a suivi hier soir en rentrant, j'ai eu super peur.",
       "Jamais je passe par là, il fait sombre, il y a des gens bizarre qui traînent en plus.",
-      "J'ai cur que j'allais mourir, il conduisait n'importe comment. Il m'a fait trop peur."
+      "J'ai cru que j'allais mourir, il conduisait n'importe comment. Il m'a fait trop peur."
     ],
     VoiceState.neutral: [
       "Ouais pourquoi pas, c'est vrai que ça peut être sympa.",

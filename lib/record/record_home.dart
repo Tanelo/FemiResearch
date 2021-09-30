@@ -6,7 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class RecordHome extends StatefulWidget {
-  const RecordHome({Key? key}) : super(key: key);
+  final double height;
+  final double width;
+  const RecordHome({
+    Key? key,
+    required this.width,
+    required this.height,
+  }) : super(key: key);
 
   @override
   _RecordHomeState createState() => _RecordHomeState();
@@ -23,7 +29,11 @@ class _RecordHomeState extends State<RecordHome> {
   void initState() {
     super.initState();
     pages = VoiceState.values
-        .map((state) => RecordPage(voiceState: state))
+        .map((state) => RecordPage(
+              voiceState: state,
+              width: widget.width,
+              height: widget.height,
+            ))
         .toList();
 
     Future.delayed(const Duration(seconds: 2), () {
@@ -49,6 +59,8 @@ class _RecordHomeState extends State<RecordHome> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: SlidingUpPanel(
         borderRadius: const BorderRadius.only(
@@ -58,7 +70,7 @@ class _RecordHomeState extends State<RecordHome> {
         isDraggable: false,
         controller: pc,
         minHeight: 0,
-        maxHeight: 260,
+        maxHeight: height * 0.33,
         backdropEnabled: false,
         panel: _panel(_selectedPageIndex),
         body: PageView.builder(
@@ -85,9 +97,9 @@ class _RecordHomeState extends State<RecordHome> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(
-              "Soit le meilleur acteur possible en récitant le texte ci-dessous avec le mood associé.",
+              "Sors nous ton meilleur jeu d'acteur possible en récitant le texte ci-dessous avec le mood associé.",
               style: TextStyle(
-                fontSize: 18,
+                fontSize: 16,
                 color: Colors.deepPurple[300],
                 fontWeight: FontWeight.bold,
               )),
@@ -99,7 +111,7 @@ class _RecordHomeState extends State<RecordHome> {
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.deepPurple[200],
-                fontSize: 18,
+                fontSize: 16,
               ),
             ),
           ),

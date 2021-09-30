@@ -29,12 +29,16 @@ class MyApp extends StatelessWidget {
         home: FutureBuilder<String>(
             future: FireAuth.signIn(),
             builder: (context, snapshot) {
+              double width = MediaQuery.of(context).size.width;
+              double height = MediaQuery.of(context).size.height;
               switch (snapshot.connectionState) {
                 case ConnectionState.done:
                   if (snapshot.hasData) {
                     String userId = snapshot.data!;
                     return MyHomePage(
                       userId: userId,
+                      width: width,
+                      height: height,
                     );
                   } else {
                     return const Scaffold(
