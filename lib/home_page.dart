@@ -1,8 +1,11 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:fetch_voice_data/constants.dart';
 import 'package:fetch_voice_data/firebase/firbase_api.dart';
+import 'package:fetch_voice_data/firebase/model.dart';
 import 'package:fetch_voice_data/utils_ui.dart';
 import 'package:flutter/material.dart';
+
+import 'recording/recording_button.dart';
 
 class MyHomePage extends StatefulWidget {
   final String userId;
@@ -205,6 +208,10 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                     ],
                   ),
                 ),
+                RecordingButton(
+                  userId: widget.userId,
+                  state: VoiceState.angry,
+                )
 
                 // } else {
               ],
