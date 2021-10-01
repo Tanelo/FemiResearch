@@ -1,5 +1,6 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:fetch_voice_data/constants.dart';
+import 'package:fetch_voice_data/explication.dart';
 import 'package:fetch_voice_data/firebase/firbase_api.dart';
 import 'package:fetch_voice_data/record/record_home.dart';
 import 'package:fetch_voice_data/utils/utils_ui.dart';
@@ -277,11 +278,17 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => RecordHome(
+                        builder: (context) => ExplicationPage(
                               userId: widget.userId,
                               width: widget.width,
                               height: widget.height,
                             )));
+                // MaterialPageRoute(
+                //     builder: (context) => RecordHome(
+                //           userId: widget.userId,
+                //           width: widget.width,
+                //           height: widget.height,
+                //         )));
               },
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30),
