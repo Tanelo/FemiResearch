@@ -56,7 +56,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     super.initState();
     double height = widget.height;
     double width = widget.width;
-    Future.delayed(const Duration(seconds: 4), () {
+    Future.delayed(const Duration(seconds: 1), () {
       if (pc.isAttached) {
         pc.open();
       }
@@ -76,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           parent: animationControllerShadow, curve: Curves.easeInOutQuart),
     );
     animationControllerSize = AnimationController(
-      duration: const Duration(milliseconds: 2000),
+      duration: const Duration(milliseconds: 5000),
       vsync: this,
     );
     animationControllerSize.repeat();
@@ -191,43 +191,26 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                     padding:
                         const EdgeInsets.only(top: 100, left: 20, right: 20),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        SizedBox(
+                          height: widget.height * 0.12,
+                          width: widget.height * 0.12,
+                          child: Image(
+                            image:
+                                AssetImage("assets/images/logo_femi_good.png"),
+                          ),
+                        ),
                         Text(
                           "Bienvenue sur Femi",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontFamily: "MuseoSans700",
                             color: Colors.white,
-                            fontSize: 20,
+                            fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-
-                        // GestureDetector(
-                        //   onTap: () {
-                        //     Navigator.push(
-                        //         context,
-                        //         MaterialPageRoute(
-                        //             builder: (context) => AddMessagePage(
-                        //                 myUser: widget.myUser,
-                        //                 relationships: widget.relationships,
-                        //                 friends: friends)));
-                        //   },
-                        //   child: Row(
-                        //     children: [
-                        //       Icon(
-                        //         Icons.message_rounded,
-                        //         color: Colors.grey[750],
-                        //         size: 30,
-                        //       ),
-                        //       Icon(
-                        //         Icons.person_search_outlined,
-                        //         size: 30,
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
                       ],
                     ),
                   ),
