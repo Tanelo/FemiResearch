@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/animation/animation_controller.dart';
 
 File? voiceFile;
+Map<VoiceState, String>? texts2say;
+String? text2say;
 
 class Constants {
   static const double height = 926;

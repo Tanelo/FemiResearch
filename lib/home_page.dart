@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:fetch_voice_data/constants.dart';
 import 'package:fetch_voice_data/firebase/firbase_api.dart';
@@ -42,6 +45,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   List<Widget> widgets = [];
   List<Map<String, double>> coords = [];
+  late Animation<double> rotationAnimation;
+  late AnimationController rotationController;
+  late Animation<Offset> slideAnimation;
+  late Animation<Offset> slideAnimation2;
+  bool isPanelOpen = false;
 
   @override
   void dispose() {
@@ -55,11 +63,27 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     super.initState();
     double height = widget.height;
     double width = widget.width;
-    Future.delayed(const Duration(seconds: 4), () {
-      if (pc.isAttached) {
-        pc.open();
-      }
-    });
+    rotationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 300))
+      ..addListener(() {
+        setState(() {});
+      });
+    rotationAnimation = Tween<double>(begin: -pi / 2, end: pi / 2).animate(
+      CurvedAnimation(parent: rotationController, curve: Curves.easeInOutQuart),
+    );
+    slideAnimation =
+        Tween<Offset>(begin: Offset.zero, end: const Offset(0, 5.2)).animate(
+      CurvedAnimation(parent: rotationController, curve: Curves.linear),
+    );
+    slideAnimation2 =
+        Tween<Offset>(begin: Offset.zero, end: const Offset(0, -0.2)).animate(
+      CurvedAnimation(parent: rotationController, curve: Curves.linear),
+    );
+    // Future.delayed(const Duration(seconds: 4), () {
+    //   if (pc.isAttached) {
+    //     pc.open();
+    //   }
+    // });
 
     animationControllerShadow = AnimationController(
       vsync: this,
@@ -133,7 +157,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                     shape: BoxShape.circle,
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: NetworkImage(imagesUrls.elementAt(index)),
+                      // image: NetworkImage(imagesUrls.elementAt(index)),
+                      image: index == 0
+                          ? const AssetImage("assets/logo_femi_rounded.jpg")
+                              as ImageProvider<Object>
+                          : NetworkImage(imagesUrls.elementAt(index)),
                     ),
                   ),
                 ),
@@ -157,9 +185,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     // print(width);
     return Scaffold(
       body: SlidingUpPanel(
+        snapPoint: 0.6,
+        isDraggable: false,
         controller: pc,
         minHeight: 0,
-        maxHeight: height * 0.5,
+        maxHeight: height * 0.95,
         backdropEnabled: true,
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(24),
@@ -170,35 +200,36 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           height: Constants.height,
           width: Constants.width,
           decoration: BoxDecoration(
-              gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: [
-              Colors.pink[400]!.withOpacity(0.800),
-              Colors.blue[300]!.withOpacity(0.800),
-            ],
-          )),
+            gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [
+                Colors.pink[400]!.withOpacity(0.800),
+                Colors.blue[300]!.withOpacity(0.800),
+              ],
+            ),
+          ),
           child: Stack(
             children: [
               Stack(
                 children: widgets,
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(top: 100, left: 20, right: 20),
-                    child: Row(
+              Padding(
+                padding: const EdgeInsets.only(
+                    top: 70, left: 20, right: 20, bottom: 50),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: const [
                         Text(
                           "Bienvenue sur Femi",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontFamily: "MuseoSans700",
+                            // fontFamily: "Nunito",
                             color: Colors.white,
-                            fontSize: 20,
+                            fontSize: 24,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -229,10 +260,41 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         // ),
                       ],
                     ),
-                  ),
+                    const Spacer(),
 
-                  // } else {
-                ],
+                    Align(
+                      alignment: Alignment.center,
+                      child: OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          primary: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          side: const BorderSide(color: Colors.white, width: 1),
+                        ),
+                        onPressed: () {
+                          pc.animatePanelToSnapPoint();
+                        },
+                        child: const SizedBox(
+                          width: 120,
+                          child: Center(
+                            child: Text(
+                              "Commencer",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                // fontFamily: "MuseoSans700"),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    // } else {
+                  ],
+                ),
               ),
             ],
           ),
@@ -243,61 +305,135 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   Widget panel() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(
-            "Hi! We are thrilled to have you here",
+            "Bienvenue",
             style: TextStyle(
-              // fontFamily: "MuseoSans700",
-              fontSize: 20,
+              // fontFamily: "Nunito",
+              fontSize: 22,
               color: Colors.deepPurple[300]!,
               fontWeight: FontWeight.bold,
             ),
           ),
           const SizedBox(height: 30),
-          Text(
-            "We are FEMI, a soon to be vocal experience where you will be connected to content you might like and on which you will be able to discuss with other people. \n\nIn order for us to launch this experience, we need you to record your voice with different moods. This will allow us to give you the content you want according to your mood.",
-            textAlign: TextAlign.justify,
-            style: TextStyle(
-              // fontFamily: "MuseoSans700",
-              fontWeight: FontWeight.w500,
-              fontSize: 16,
-              color: Colors.deepPurple[200]!,
+          SizedBox(
+            height: widget.height * 0.3,
+            width: widget.width,
+            child: AutoSizeText(
+              "Nous sommes l'équipe de FEMI.\n\nNous avons besoin de toi pour lancer notre projet !\n\nDans cette application, on te propose de réciter des textes en association avec une certaine émotion (tu peux également improviser). Il y a une dizaine de textes à réciter. Tu peux toujours décider de passer au suivant.\n\nAlors c'est parti, sors nous ton meilleur jeu d'acteur !",
+              textAlign: TextAlign.justify,
+              style: TextStyle(
+                // fontFamily: "MuseoSans700",
+                fontWeight: FontWeight.w500,
+                fontSize: 16,
+                color: Colors.deepPurple[200]!,
+              ),
             ),
           ),
-          const SizedBox(height: 30),
-          Align(
-            alignment: Alignment.center,
-            child: RawMaterialButton(
-              elevation: 2.0,
-              onPressed: () {
-                Navigator.push(
+          const SizedBox(height: 10),
+          GestureDetector(
+            onTap: () {
+              if (!isPanelOpen) {
+                rotationController.forward();
+                pc.animatePanelToPosition(1,
+                    duration: const Duration(milliseconds: 300));
+              } else {
+                rotationController.reverse();
+                pc.animatePanelToSnapPoint(
+                    duration: const Duration(milliseconds: 300));
+              }
+
+              setState(() {
+                isPanelOpen = !isPanelOpen;
+              });
+            },
+            child: Row(
+              children: [
+                Text(
+                  "En savoir plus",
+                  style: TextStyle(
+                    color: Colors.deepPurple[300]!,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Transform(
+                  origin: const Offset(8, 8),
+                  child: Icon(
+                    Icons.arrow_forward_ios,
+                    size: 16,
+                    color: Colors.deepPurple[300]!,
+                  ),
+                  transform: Matrix4.identity()
+                    ..rotateZ(-rotationAnimation.value),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          SlideTransition(
+            position: slideAnimation,
+            child: Align(
+              alignment: Alignment.center,
+              child: RawMaterialButton(
+                elevation: 2.0,
+                onPressed: () async {
+                  await pc.close();
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => RecordHome(
-                              userId: widget.userId,
-                              width: widget.width,
-                              height: widget.height,
-                            )));
-              },
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30),
-              ),
-              fillColor: Colors.deepPurple[300]!,
-              child: const SizedBox(
-                width: 120,
-                child: Center(
-                  child: Text(
-                    "Let's go",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      // fontFamily: "MuseoSans700"),
+                      builder: (context) => RecordHome(
+                        userId: widget.userId,
+                        width: widget.width,
+                        height: widget.height,
+                      ),
                     ),
+                  );
+                },
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                fillColor: Colors.deepPurple[300]!,
+                child: const SizedBox(
+                  width: 120,
+                  child: Center(
+                    child: Text(
+                      "Let's go",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        // fontFamily: "MuseoSans700"),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          AnimatedOpacity(
+            duration: const Duration(milliseconds: 300),
+            opacity: rotationController.value,
+            child: SlideTransition(
+              position: slideAnimation2,
+              child: SizedBox(
+                height: widget.height * 0.37,
+                width: widget.width,
+                child: AutoSizeText(
+                  "Nous sommes Samuel Lerman et Tanel Petelot, étudiants à CentraleSupélec et travaillons sur un projet reliant la voix avec les émotions.\n\nNous avons besoin de toi pour entraîner des réseaux de neurones profonds, dont l'objectif est de détecter les émotions directement avec le ton, le timbre, les fréquences de la voix.\n\nRassure toi les enregistrements audio ne seronts ni diffusés ni utilisés à des fins commerciales.\n\n En cliquant sur le bouton ci-dessous, tu acceptes que l'on utilise tes enregistrements à ces activités de recherche.",
+                  textAlign: TextAlign.justify,
+                  style: TextStyle(
+                    // fontFamily: "MuseoSans700",
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16,
+                    color: Colors.deepPurple[200]!,
                   ),
                 ),
               ),

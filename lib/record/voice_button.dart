@@ -10,7 +10,11 @@ import 'package:permission_handler/permission_handler.dart';
 import '../constants.dart';
 
 class VoiceButton extends StatefulWidget {
-  const VoiceButton({Key? key}) : super(key: key);
+  final double size;
+  const VoiceButton({
+    Key? key,
+    required this.size,
+  }) : super(key: key);
 
   @override
   _VoiceButtonState createState() => _VoiceButtonState();
@@ -102,18 +106,20 @@ class _VoiceButtonState extends State<VoiceButton> {
           ),
         ],
       ),
-      height: 100,
-      width: 100,
+      height: widget.size,
+      width: widget.size,
       child: PlayButton(
-        pauseIcon: const Icon(Icons.mic, color: Colors.black, size: 30),
-        playIcon: const Icon(Icons.mic_off, color: Colors.black, size: 30),
+        pauseIcon:
+            Icon(Icons.mic, color: Colors.black, size: widget.size * 0.3),
+        playIcon:
+            Icon(Icons.mic_off, color: Colors.black, size: widget.size * 0.3),
         onPressed: () async {
           if (!alreadyTapped) {
             // print("je suis la ");
-            await _onRecordButtonPressed();
+            await _onRecordButtonPressed(context);
           } else {
             // print("je ne suis pas là");
-            await _onRecordButtonPressed();
+            await _onRecordButtonPressed(context);
           }
           setState(() {
             alreadyTapped = !alreadyTapped;
@@ -125,7 +131,7 @@ class _VoiceButtonState extends State<VoiceButton> {
     );
   }
 
-  Future<void> _onRecordButtonPressed() async {
+  Future<void> _onRecordButtonPressed(BuildContext context) async {
     switch (_state) {
       case ButtonState.Set:
         await record(); //on attend le lancement du record
@@ -134,6 +140,9 @@ class _VoiceButtonState extends State<VoiceButton> {
       case ButtonState.Recording: // si on record, on attend la fin du record
         await stopRecorder();
         _state = ButtonState.Stopped;
+        if (voiceFile != null) {
+          _showSnackBarSuccessfulyRecorded(context);
+        }
         break;
 
       case ButtonState.Stopped:
@@ -152,3 +161,33 @@ class _VoiceButtonState extends State<VoiceButton> {
 void _showSnackBarErrorRecording() {}
 
 void _showSnackBarAllowRecording() {}
+
+void _showSnackBarSuccessfulyRecorded(BuildContext context) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      margin: const EdgeInsets.only(bottom: 20, left: 30, right: 30),
+      elevation: 2.0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(18.0),
+      ),
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: Colors.green,
+      padding: const EdgeInsets.symmetric(horizontal: 15),
+      content: Container(
+        alignment: Alignment.center,
+        height: 50,
+        child: const Center(
+          child: Text(
+            "C'est dans la boîte !",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+            ),
+          ),
+        ),
+      ),
+      duration: const Duration(milliseconds: 1300),
+    ),
+  );
+}

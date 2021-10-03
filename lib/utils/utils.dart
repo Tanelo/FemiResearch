@@ -28,4 +28,41 @@ extension StringExtension on String {
       return this;
     }
   }
+
+  String toFrench() {
+    if (length < 1) {
+      return this;
+    } else if (length == 1) {
+      return this;
+    } else {
+      String s = toLowerCase();
+
+      switch (s) {
+        case "angry":
+          return "En colère";
+        case "happy":
+          return "Joyeux";
+        case "sad":
+          return "Triste";
+        case "disgust":
+          return "Dégouté";
+        case "surprised":
+          return "Surpris";
+        case "fear":
+          return "Effrayé";
+        case "neutral":
+          return "Neutre";
+        case "pensive":
+          return "Pensif";
+        case "funny":
+          return "Envie de rire";
+        case "illuminated":
+          return "Illuminé";
+        case "love":
+          return "Amoureux";
+        default:
+          return this;
+      }
+    }
+  }
 }

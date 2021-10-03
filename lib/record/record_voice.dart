@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:fetch_voice_data/constants.dart';
 import 'package:fetch_voice_data/firebase/model.dart';
@@ -34,6 +35,8 @@ class _RecordPageState extends State<RecordPage> with TickerProviderStateMixin {
   // List<Widget> widgets = [];
   List<Map<String, double>> coords = [];
   late Widget cwidget;
+  late final double size;
+  bool isImprovisation = false;
 
   @override
   void dispose() {
@@ -45,8 +48,11 @@ class _RecordPageState extends State<RecordPage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    double width = widget.width;
-    double height = widget.height;
+    text2say = texts2say![widget.voiceState];
+    size = widget.height * 0.45 > widget.width
+        ? widget.width
+        : widget.height * 0.45;
+
     backgroundColor = Constants.voiceColor[widget.voiceState]!;
     imagesUrls = Constants.imagesUrls[widget.voiceState]!;
 
@@ -102,11 +108,11 @@ class _RecordPageState extends State<RecordPage> with TickerProviderStateMixin {
     int n = imagesUrls.length;
     double d = 1 / (n + 1);
     List<double> delays = List.generate(n, (index) => d * index);
-    double dmax = 80;
-    double padding = 20;
+    double dmax = size * 0.2;
+    double padding = size * 0.05;
     double currentRadius = 1.2 * (dmax + padding);
     coords = NodeDisposition.defineCoordsRecordPage(
-        imagesUrls.length, width, width, dmax, currentRadius);
+        imagesUrls.length, size, size, dmax, currentRadius);
 
     Widget circle = Align(
       alignment: Alignment.center,
@@ -176,39 +182,142 @@ class _RecordPageState extends State<RecordPage> with TickerProviderStateMixin {
     //     .add(const Align(alignment: Alignment.center, child: VoiceButton()));
     return Scaffold(
       backgroundColor: backgroundColor,
-      body: Column(
-        children: [
-          const Padding(
-            padding: EdgeInsets.only(top: 40, left: 20, right: 20),
-            child: Text(
-              "Tape sur le bouton central \npour enregistrer ta voix",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+      body: Align(
+        alignment: Alignment.topCenter,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(
+                  top: widget.height * 0.07, left: 20, right: 20),
+              child: const Text(
+                "Tape sur le bouton central \npour enregistrer ta voix",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: 15),
-          Text(
-            "Mood : ${describeEnum(widget.voiceState).firstUpperCase()}",
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-              // fontWeight: FontWeight.bold,
+            SizedBox(height: widget.height * 0.04),
+            Text(
+              "Mood : ${describeEnum(widget.voiceState).toFrench()}",
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                // fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-          SizedBox(
-              width: widget.width,
-              height: widget.width,
+            const Spacer(),
+            SizedBox(
+              width: size,
+              height: size,
               child: Stack(
                 children: allWidgets +
-                    [Align(alignment: Alignment.center, child: VoiceButton())],
-              )),
-          // VoiceButton(),
-        ],
+                    [
+                      Align(
+                          alignment: Alignment.center,
+                          child: VoiceButton(size: size * 0.3))
+                    ],
+              ),
+            ),
+            Stack(
+              children: [
+                SizedBox(
+                  width: widget.width,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
+                      children: [
+                        GestureDetector(
+                          behavior: HitTestBehavior.translucent,
+                          child: Container(
+                            height: 40,
+                            width: widget.width * 0.5 - 20,
+                            alignment: Alignment.center,
+                            child: const Text(
+                              "Récite",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 17,
+                              ),
+                            ),
+                          ),
+                          onTap: () {
+                            setState(() {
+                              isImprovisation = false;
+                              text2say = texts2say![widget.voiceState];
+                            });
+                          },
+                        ),
+                        const Spacer(),
+                        GestureDetector(
+                          behavior: HitTestBehavior.translucent,
+                          child: Container(
+                            height: 40,
+                            width: widget.width * 0.5 - 20,
+                            alignment: Alignment.center,
+                            child: const Text(
+                              "Improvise",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 17,
+                              ),
+                            ),
+                          ),
+                          onTap: () {
+                            setState(() {
+                              isImprovisation = true;
+                              text2say = "Improvise";
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                AnimatedPositioned(
+                  top: 0,
+                  bottom: 0,
+                  left: isImprovisation ? widget.width * 0.5 : 20,
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.fastOutSlowIn,
+                  child: IgnorePointer(
+                    child: Opacity(
+                      opacity: 0.4,
+                      child: Container(
+                        width: widget.width * 0.5 - 20,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[400],
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+
+            const Spacer(),
+            SizedBox(
+              height: widget.height * 0.25,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                child: AutoSizeText(
+                  text2say!,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+            ),
+            // VoiceButton(),
+          ],
+        ),
       ),
 
       // child: Stack(

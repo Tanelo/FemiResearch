@@ -3,6 +3,7 @@ import 'package:fetch_voice_data/firebase/firbase_api.dart';
 import 'package:fetch_voice_data/home_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 Future main() async {
@@ -16,9 +17,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return const MaterialApp(
-    //   home: MyHomePage(),
-    // );
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return ScreenUtilInit(
       designSize: const Size(Constants.width, Constants.height),
       builder: () => MaterialApp(
@@ -31,6 +33,7 @@ class MyApp extends StatelessWidget {
             builder: (context, snapshot) {
               double width = MediaQuery.of(context).size.width;
               double height = MediaQuery.of(context).size.height;
+
               switch (snapshot.connectionState) {
                 case ConnectionState.done:
                   if (snapshot.hasData) {
