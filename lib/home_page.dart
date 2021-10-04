@@ -61,6 +61,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    isPanelOpen = false;
     double height = widget.height;
     double width = widget.width;
     rotationController = AnimationController(
@@ -186,7 +187,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     return Scaffold(
       body: SlidingUpPanel(
         snapPoint: 0.6,
-        isDraggable: false,
+        // isDraggable: false,
         controller: pc,
         minHeight: 0,
         maxHeight: height * 0.95,
@@ -378,65 +379,74 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           const SizedBox(
             height: 20,
           ),
-          SlideTransition(
-            position: slideAnimation,
-            child: Align(
-              alignment: Alignment.center,
-              child: RawMaterialButton(
-                elevation: 2.0,
-                onPressed: () async {
-                  await pc.close();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => RecordHome(
-                        userId: widget.userId,
-                        width: widget.width,
-                        height: widget.height,
+          Expanded(
+            child: Stack(
+              children: [
+                AnimatedPositioned(
+                  duration: const Duration(milliseconds: 30),
+                  left: 0,
+                  right: 0,
+                  bottom:
+                      widget.height * 0.35 * (1 - rotationController.value) +
+                          widget.height * 0.07,
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: RawMaterialButton(
+                      elevation: 2.0,
+                      onPressed: () async {
+                        await pc.close();
+                        rotationController.reset();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => RecordHome(
+                              userId: widget.userId,
+                              width: widget.width,
+                              height: widget.height,
+                            ),
+                          ),
+                        );
+                      },
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      fillColor: Colors.deepPurple[300]!,
+                      child: const SizedBox(
+                        width: 120,
+                        child: Center(
+                          child: Text(
+                            "Let's go",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              // fontFamily: "MuseoSans700"),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                  );
-                },
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
+                  ),
                 ),
-                fillColor: Colors.deepPurple[300]!,
-                child: const SizedBox(
-                  width: 120,
-                  child: Center(
-                    child: Text(
-                      "Let's go",
+                AnimatedOpacity(
+                  duration: const Duration(milliseconds: 300),
+                  opacity: rotationController.value,
+                  child: SizedBox(
+                    height: widget.height * 0.37,
+                    width: widget.width,
+                    child: AutoSizeText(
+                      "Nous sommes Samuel Lerman et Tanel Petelot, étudiants à CentraleSupélec et travaillons sur un projet reliant la voix avec les émotions.\n\nNous avons besoin de toi pour entraîner des réseaux de neurones profonds, dont l'objectif est de détecter les émotions directement avec le ton, le timbre, les fréquences de la voix.\n\nRassure toi les enregistrements audio ne seronts ni diffusés ni utilisés à des fins commerciales.\n\n En cliquant sur le bouton ci-dessous, tu acceptes que l'on utilise tes enregistrements à ces activités de recherche.",
+                      textAlign: TextAlign.justify,
                       style: TextStyle(
-                        color: Colors.white,
+                        // fontFamily: "MuseoSans700",
+                        fontWeight: FontWeight.w500,
                         fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        // fontFamily: "MuseoSans700"),
+                        color: Colors.deepPurple[200]!,
                       ),
                     ),
                   ),
                 ),
-              ),
-            ),
-          ),
-          AnimatedOpacity(
-            duration: const Duration(milliseconds: 300),
-            opacity: rotationController.value,
-            child: SlideTransition(
-              position: slideAnimation2,
-              child: SizedBox(
-                height: widget.height * 0.37,
-                width: widget.width,
-                child: AutoSizeText(
-                  "Nous sommes Samuel Lerman et Tanel Petelot, étudiants à CentraleSupélec et travaillons sur un projet reliant la voix avec les émotions.\n\nNous avons besoin de toi pour entraîner des réseaux de neurones profonds, dont l'objectif est de détecter les émotions directement avec le ton, le timbre, les fréquences de la voix.\n\nRassure toi les enregistrements audio ne seronts ni diffusés ni utilisés à des fins commerciales.\n\n En cliquant sur le bouton ci-dessous, tu acceptes que l'on utilise tes enregistrements à ces activités de recherche.",
-                  textAlign: TextAlign.justify,
-                  style: TextStyle(
-                    // fontFamily: "MuseoSans700",
-                    fontWeight: FontWeight.w500,
-                    fontSize: 16,
-                    color: Colors.deepPurple[200]!,
-                  ),
-                ),
-              ),
+              ],
             ),
           ),
         ],

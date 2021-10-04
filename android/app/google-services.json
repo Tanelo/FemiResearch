@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "11439592494",
+    "project_id": "femisearch-7cf91",
+    "storage_bucket": "femisearch-7cf91.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:11439592494:android:f0b9cd2cc6ee75499c3bbf",
+        "android_client_info": {
+          "package_name": "fr.joinfemi.femiSearch"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "11439592494-puh29hdob6j9bcegvbsm24fagt1llthp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2jR2EuiLuLa4skcT1HGqW1QtCKvHNH5k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "11439592494-puh29hdob6j9bcegvbsm24fagt1llthp.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "11439592494-4ec497ndbp1t5oujb0c5m8rblp56nv0t.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "fr.joinfemi.femiSearch"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
