@@ -101,7 +101,7 @@ class _RecordHomeState extends State<RecordHome> {
               itemCount: pages.length,
             ),
             Positioned(
-              bottom: 30,
+              bottom: widget.height * 0.05,
               child: SizedBox(
                 width: width,
                 child: Padding(
@@ -154,15 +154,15 @@ class _RecordHomeState extends State<RecordHome> {
                             );
                           }
                         },
-                        child: const SizedBox(
-                          height: 40,
-                          width: 80,
+                        child: SizedBox(
+                          height: widget.height * 0.05,
+                          width: widget.height * 0.1,
                           child: Center(
                             child: Text(
                               "Suivant",
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 16,
+                                fontSize: widget.height * 0.02,
                                 fontWeight: FontWeight.bold,
                                 // fontFamily: "MuseoSans700"),
                               ),
@@ -246,7 +246,7 @@ class _RecordHomeState extends State<RecordHome> {
       text = possibleTexts.elementAt(Utils.randint(0, possibleTexts.length));
     }
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -256,7 +256,7 @@ class _RecordHomeState extends State<RecordHome> {
                   "Sors nous ton meilleur jeu d'acteur possible en récitant le texte ci-dessous avec le mood associé.",
                   textAlign: TextAlign.justify,
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: widget.height * 0.02,
                     color: Colors.deepPurple[300],
                     fontWeight: FontWeight.bold,
                   ),
@@ -271,7 +271,7 @@ class _RecordHomeState extends State<RecordHome> {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.deepPurple[200],
-                      fontSize: 18,
+                      fontSize: widget.height * 0.025,
                     ),
                   ),
                 )
@@ -285,7 +285,7 @@ class _RecordHomeState extends State<RecordHome> {
                 style: OutlinedButton.styleFrom(
                   primary: Colors.white,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius: BorderRadius.circular(widget.height * 0.04),
                   ),
                   side: const BorderSide(color: Colors.white, width: 1),
                 ),
@@ -321,15 +321,15 @@ class _RecordHomeState extends State<RecordHome> {
                     );
                   }
                 },
-                child: const SizedBox(
-                  height: 40,
-                  width: 120,
+                child: SizedBox(
+                  height: widget.height * 0.05,
+                  width: widget.height * 0.15,
                   child: Center(
                     child: Text(
                       "Suivant",
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 16,
+                        fontSize: widget.height * 0.02,
                         fontWeight: FontWeight.bold,
                         // fontFamily: "MuseoSans700"),
                       ),

@@ -107,8 +107,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     int n = imagesUrls.length;
     double d = 1 / (n + 1);
     List<double> delays = List.generate(n, (index) => d * index);
-    double dmax = 80;
-    double padding = 20;
+    double dmax = height * 0.09;
+    double padding = widget.height * 0.03;
     List<double> radii = [2 * (dmax + padding), 4 * dmax + 2 * padding];
     coords = NodeDisposition.defineCoords(
         imagesUrls.length, height, width, dmax, padding);
@@ -152,7 +152,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                       BoxShadow(
                           color: Colors.purple[100]!.withOpacity(0.92),
                           offset: const Offset(0.0, 3.0),
-                          blurRadius: 25)
+                          blurRadius: 20)
                     ],
                     shape: BoxShape.circle,
                     image: DecorationImage(
@@ -215,21 +215,24 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                 children: widgets,
               ),
               Padding(
-                padding: const EdgeInsets.only(
-                    top: 70, left: 20, right: 20, bottom: 50),
+                padding: EdgeInsets.only(
+                    top: height * 0.1,
+                    left: height * 0.03,
+                    right: height * 0.03,
+                    bottom: height * 0.06),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
+                      children: [
                         Text(
                           "Bienvenue sur Femi",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             // fontFamily: "Nunito",
                             color: Colors.white,
-                            fontSize: 24,
+                            fontSize: height * 0.03,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -268,21 +271,21 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         style: OutlinedButton.styleFrom(
                           primary: Colors.white,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
+                            borderRadius: BorderRadius.circular(height * 0.045),
                           ),
                           side: const BorderSide(color: Colors.white, width: 1),
                         ),
                         onPressed: () {
                           pc.animatePanelToSnapPoint();
                         },
-                        child: const SizedBox(
-                          width: 120,
+                        child: SizedBox(
+                          width: height * 0.15,
                           child: Center(
                             child: Text(
                               "Commencer",
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 18,
+                                fontSize: height * 0.024,
                                 fontWeight: FontWeight.bold,
                                 // fontFamily: "MuseoSans700"),
                               ),
@@ -305,7 +308,10 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   Widget panel() {
     return Padding(
-      padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
+      padding: EdgeInsets.only(
+          left: widget.height * 0.03,
+          right: widget.height * 0.03,
+          top: widget.height * 0.03),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -314,12 +320,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             "Bienvenue",
             style: TextStyle(
               // fontFamily: "Nunito",
-              fontSize: 22,
+              fontSize: widget.height * 0.03,
               color: Colors.deepPurple[300]!,
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 30),
+          SizedBox(height: widget.height * 0.045),
           SizedBox(
             height: widget.height * 0.3,
             width: widget.width,
@@ -357,16 +363,16 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   "En savoir plus",
                   style: TextStyle(
                     color: Colors.deepPurple[300]!,
-                    fontSize: 16,
+                    fontSize: widget.height * 0.025,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(width: 10),
+                SizedBox(width: widget.height * 0.025),
                 Transform(
                   origin: const Offset(8, 8),
                   child: Icon(
                     Icons.arrow_forward_ios,
-                    size: 16,
+                    size: widget.height * 0.032,
                     color: Colors.deepPurple[300]!,
                   ),
                   transform: Matrix4.identity()
@@ -375,8 +381,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               ],
             ),
           ),
-          const SizedBox(
-            height: 20,
+          SizedBox(
+            height: widget.height * 0.03,
           ),
           SlideTransition(
             position: slideAnimation,
@@ -401,14 +407,14 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   borderRadius: BorderRadius.circular(30),
                 ),
                 fillColor: Colors.deepPurple[300]!,
-                child: const SizedBox(
-                  width: 120,
+                child: SizedBox(
+                  width: widget.height * 0.15,
                   child: Center(
                     child: Text(
                       "Let's go",
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 16,
+                        fontSize: widget.height * 0.024,
                         fontWeight: FontWeight.bold,
                         // fontFamily: "MuseoSans700"),
                       ),
@@ -432,7 +438,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   style: TextStyle(
                     // fontFamily: "MuseoSans700",
                     fontWeight: FontWeight.w500,
-                    fontSize: 16,
+                    fontSize: widget.height * 0.03,
                     color: Colors.deepPurple[200]!,
                   ),
                 ),
