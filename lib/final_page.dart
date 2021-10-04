@@ -180,16 +180,33 @@ class _FinalPageState extends State<FinalPage> with TickerProviderStateMixin {
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Text(
-                        "Merci pour ta participation !",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          // fontFamily: "Nunito",
-                          color: Colors.white,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
+                    children: [
+                      Column(
+                        children: [
+                          Text(
+                            "Merci pour ta participation !",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              // fontFamily: "Nunito",
+                              color: Colors.white,
+                              fontSize: widget.height * 0.03,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                          SizedBox(
+                            height: widget.height * 0.01,
+                          ),
+                          Text(
+                            "N'hésite pas à partager l'application avec tes potes !",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              // fontFamily: "Nunito",
+                              color: Colors.white,
+                              fontSize: widget.height * 0.017,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
                       ),
 
                       // GestureDetector(

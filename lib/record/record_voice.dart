@@ -189,25 +189,38 @@ class _RecordPageState extends State<RecordPage> with TickerProviderStateMixin {
           children: [
             Padding(
               padding: EdgeInsets.only(
-                  top: widget.height * 0.07, left: 20, right: 20),
-              child: const Text(
-                "Tape sur le bouton central \npour enregistrer ta voix",
+                  top: widget.height * 0.07, left: 16, right: 16),
+              child: Text(
+                "Tape une fois sur le bouton central \npour enregistrer ta voix",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+                  color: Colors.white70,
+                  fontSize: widget.height * 0.025,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ),
-            SizedBox(height: widget.height * 0.04),
+            Padding(
+              padding: EdgeInsets.only(
+                  top: widget.height * 0.01, left: 16, right: 16),
+              child: Text(
+                "Puis retape une fois pour terminer",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white70,
+                  fontSize: widget.height * 0.02,
+                  fontWeight: FontWeight.w300,
+                ),
+              ),
+            ),
+            SizedBox(height: widget.height * 0.03),
             Text(
               "Mood : ${describeEnum(widget.voiceState).toFrench()}",
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: TextStyle(
                 color: Colors.white,
-                fontSize: 18,
-                // fontWeight: FontWeight.bold,
+                fontSize: widget.height * 0.026,
+                fontWeight: FontWeight.bold,
               ),
             ),
             const Spacer(),
@@ -264,7 +277,7 @@ class _RecordPageState extends State<RecordPage> with TickerProviderStateMixin {
                 SizedBox(
                   width: widget.width,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: EdgeInsets.symmetric(horizontal: 20),
                     child: Row(
                       children: [
                         GestureDetector(
@@ -273,11 +286,13 @@ class _RecordPageState extends State<RecordPage> with TickerProviderStateMixin {
                             height: 40,
                             width: widget.width * 0.5 - 20,
                             alignment: Alignment.center,
-                            child: const Text(
+                            child: Text(
                               "Récite",
                               style: TextStyle(
+                                letterSpacing: 0.8,
                                 color: Colors.white,
-                                fontSize: 17,
+                                fontSize: widget.height * 0.02,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
@@ -292,14 +307,16 @@ class _RecordPageState extends State<RecordPage> with TickerProviderStateMixin {
                         GestureDetector(
                           behavior: HitTestBehavior.translucent,
                           child: Container(
-                            height: 40,
+                            height: widget.height * 0.06,
                             width: widget.width * 0.5 - 20,
                             alignment: Alignment.center,
-                            child: const Text(
+                            child: Text(
                               "Improvise",
                               style: TextStyle(
+                                letterSpacing: 0.8,
                                 color: Colors.white,
-                                fontSize: 17,
+                                fontSize: widget.height * 0.02,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
@@ -344,9 +361,9 @@ class _RecordPageState extends State<RecordPage> with TickerProviderStateMixin {
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                 child: AutoSizeText(
                   text2say!,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.white,
-                    fontSize: 18,
+                    fontSize: widget.height * 0.022,
                   ),
                 ),
               ),

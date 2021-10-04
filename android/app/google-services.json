@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "11439592494-0iu61morm0vcntsvd8n1s1j57n4nbrr5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fr.joinfemi.femiSearch",
+            "certificate_hash": "1f65a5a0a6578c006d8d82dc326122d309a4bb1d"
+          }
+        },
+        {
           "client_id": "11439592494-puh29hdob6j9bcegvbsm24fagt1llthp.apps.googleusercontent.com",
           "client_type": 3
         }
