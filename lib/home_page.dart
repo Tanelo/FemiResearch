@@ -47,14 +47,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   List<Map<String, double>> coords = [];
   late Animation<double> rotationAnimation;
   late AnimationController rotationController;
-  late Animation<Offset> slideAnimation;
-  late Animation<Offset> slideAnimation2;
   bool isPanelOpen = false;
 
   @override
   void dispose() {
     animationControllerSize.dispose();
     animationControllerShadow.dispose();
+    rotationController.dispose();
     super.dispose();
   }
 
@@ -71,14 +70,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       });
     rotationAnimation = Tween<double>(begin: -pi / 2, end: pi / 2).animate(
       CurvedAnimation(parent: rotationController, curve: Curves.easeInOutQuart),
-    );
-    slideAnimation =
-        Tween<Offset>(begin: Offset.zero, end: const Offset(0, 5.2)).animate(
-      CurvedAnimation(parent: rotationController, curve: Curves.linear),
-    );
-    slideAnimation2 =
-        Tween<Offset>(begin: Offset.zero, end: const Offset(0, -0.2)).animate(
-      CurvedAnimation(parent: rotationController, curve: Curves.linear),
     );
     // Future.delayed(const Duration(seconds: 4), () {
     //   if (pc.isAttached) {
@@ -224,45 +215,56 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Bienvenue sur Femi",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            // fontFamily: "Nunito",
-                            color: Colors.white,
-                            fontSize: height * 0.03,
-                            fontWeight: FontWeight.bold,
-                          ),
+                    const Align(
+                      alignment: Alignment.topCenter,
+                      child: Text(
+                        "Bienvenue sur FEMI Research",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          // fontFamily: "Nunito",
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
                         ),
+                      ),
 
-                        // GestureDetector(
-                        //   onTap: () {
-                        //     Navigator.push(
-                        //         context,
-                        //         MaterialPageRoute(
-                        //             builder: (context) => AddMessagePage(
-                        //                 myUser: widget.myUser,
-                        //                 relationships: widget.relationships,
-                        //                 friends: friends)));
-                        //   },
-                        //   child: Row(
-                        //     children: [
-                        //       Icon(
-                        //         Icons.message_rounded,
-                        //         color: Colors.grey[750],
-                        //         size: 30,
-                        //       ),
-                        //       Icon(
-                        //         Icons.person_search_outlined,
-                        //         size: 30,
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
-                      ],
+                      // GestureDetector(
+                      //   onTap: () {
+                      //     Navigator.push(
+                      //         context,
+                      //         MaterialPageRoute(
+                      //             builder: (context) => AddMessagePage(
+                      //                 myUser: widget.myUser,
+                      //                 relationships: widget.relationships,
+                      //                 friends: friends)));
+                      //   },
+                      //   child: Row(
+                      //     children: [
+                      //       Icon(
+                      //         Icons.message_rounded,
+                      //         color: Colors.grey[750],
+                      //         size: 30,
+                      //       ),
+                      //       Icon(
+                      //         Icons.person_search_outlined,
+                      //         size: 30,
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+                    ),
+                    SizedBox(height: widget.height * 0.015),
+                    const Align(
+                      alignment: Alignment.topCenter,
+                      child: Text(
+                        "Une application pour la recherche\ncrée par FEMI",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          // fontFamily: "Nunito",
+                          color: Colors.white70,
+                          fontSize: 18,
+                        ),
+                      ),
                     ),
                     const Spacer(),
 
@@ -281,12 +283,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         },
                         child: SizedBox(
                           width: height * 0.15,
-                          child: Center(
+                          child: const Center(
                             child: Text(
                               "Commencer",
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: height * 0.024,
+                                fontSize: 18,
                                 fontWeight: FontWeight.bold,
                                 // fontFamily: "MuseoSans700"),
                               ),
@@ -341,7 +343,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               ),
             ),
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: widget.height * 0.01),
           GestureDetector(
             onTap: () {
               if (!isPanelOpen) {
@@ -364,7 +366,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   "En savoir plus",
                   style: TextStyle(
                     color: Colors.deepPurple[300]!,
-                    fontSize: widget.height * 0.025,
+                    fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -373,7 +375,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   origin: const Offset(8, 8),
                   child: Icon(
                     Icons.arrow_forward_ios,
-                    size: widget.height * 0.032,
+                    size: 16,
                     color: Colors.deepPurple[300]!,
                   ),
                   transform: Matrix4.identity()
@@ -382,19 +384,39 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               ],
             ),
           ),
-          SizedBox(
-            height: widget.height * 0.03,
-          ),
+          rotationController.value == 1
+              ? SizedBox(
+                  height: widget.height * 0.03,
+                )
+              : const SizedBox.shrink(),
           Expanded(
             child: Stack(
               children: [
+                AnimatedOpacity(
+                  duration: const Duration(milliseconds: 300),
+                  opacity: rotationController.value,
+                  child: SizedBox(
+                    height: widget.height * 0.37,
+                    width: widget.width,
+                    child: AutoSizeText(
+                      "Nous sommes Samuel Lerman et Tanel Petelot, étudiants à CentraleSupélec et travaillons sur un projet reliant la voix avec les émotions.\n\nNous avons besoin de toi pour entraîner des réseaux de neurones profonds, dont l'objectif est de détecter les émotions directement avec le ton, le timbre, les fréquences de la voix.\n\nRassure toi les enregistrements audio ne seronts ni diffusés ni utilisés à des fins commerciales.\n\n En cliquant sur le bouton ci-dessous, tu acceptes que l'on utilise tes enregistrements à ces activités de recherche.",
+                      textAlign: TextAlign.justify,
+                      style: TextStyle(
+                        // fontFamily: "MuseoSans700",
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
+                        color: Colors.deepPurple[200]!,
+                      ),
+                    ),
+                  ),
+                ),
                 AnimatedPositioned(
                   duration: const Duration(milliseconds: 30),
                   left: 0,
                   right: 0,
                   bottom:
-                      widget.height * 0.35 * (1 - rotationController.value) +
-                          widget.height * 0.07,
+                      widget.height * 0.38 * (1 - rotationController.value) +
+                          widget.height * 0.03,
                   child: Align(
                     alignment: Alignment.bottomCenter,
                     child: RawMaterialButton(
@@ -430,24 +452,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                             ),
                           ),
                         ),
-                      ),
-                    ),
-                  ),
-                ),
-                AnimatedOpacity(
-                  duration: const Duration(milliseconds: 300),
-                  opacity: rotationController.value,
-                  child: SizedBox(
-                    height: widget.height * 0.37,
-                    width: widget.width,
-                    child: AutoSizeText(
-                      "Nous sommes Samuel Lerman et Tanel Petelot, étudiants à CentraleSupélec et travaillons sur un projet reliant la voix avec les émotions.\n\nNous avons besoin de toi pour entraîner des réseaux de neurones profonds, dont l'objectif est de détecter les émotions directement avec le ton, le timbre, les fréquences de la voix.\n\nRassure toi les enregistrements audio ne seronts ni diffusés ni utilisés à des fins commerciales.\n\n En cliquant sur le bouton ci-dessous, tu acceptes que l'on utilise tes enregistrements à ces activités de recherche.",
-                      textAlign: TextAlign.justify,
-                      style: TextStyle(
-                        // fontFamily: "MuseoSans700",
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16,
-                        color: Colors.deepPurple[200]!,
                       ),
                     ),
                   ),

@@ -232,42 +232,42 @@ class _RecordPageState extends State<RecordPage> with TickerProviderStateMixin {
                     [
                       Align(
                         alignment: Alignment.center,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.deepPurple[100]!,
-                                offset: const Offset(0, 1),
-                                blurRadius: 10,
-                              ),
-                            ],
-                          ),
-                          height: size * 0.3,
-                          width: size * 0.3,
-                          child: PlayButton(
-                            pauseIcon: Icon(Icons.mic,
-                                color: Colors.black, size: size * 0.09),
-                            playIcon: Icon(Icons.mic_off,
-                                color: Colors.black, size: size * 0.09),
-                            onPressed: () {},
-                            // onPressed: () async {
-                            //   if (!alreadyTapped) {
-                            //     // print("je suis la ");
-                            //     await _onRecordButtonPressed(context);
-                            //   } else {
-                            //     // print("je ne suis pas là");
-                            //     await _onRecordButtonPressed(context);
-                            //   }
-                            //   setState(() {
-                            //     alreadyTapped = !alreadyTapped;
-                            //   });
-                            // },
-                            gradient: const LinearGradient(
-                                colors: [Colors.white70, Colors.white70]),
-                          ),
-                        ),
-                        // child: VoiceButton(size: size * 0.3),
+                        // child: Container(
+                        //   decoration: BoxDecoration(
+                        //     shape: BoxShape.circle,
+                        //     boxShadow: [
+                        //       BoxShadow(
+                        //         color: Colors.deepPurple[100]!,
+                        //         offset: const Offset(0, 1),
+                        //         blurRadius: 10,
+                        //       ),
+                        //     ],
+                        //   ),
+                        //   height: size * 0.3,
+                        //   width: size * 0.3,
+                        //   child: PlayButton(
+                        //     pauseIcon: Icon(Icons.mic,
+                        //         color: Colors.black, size: size * 0.09),
+                        //     playIcon: Icon(Icons.mic_off,
+                        //         color: Colors.black, size: size * 0.09),
+                        //     onPressed: () {},
+                        //     // onPressed: () async {
+                        //     //   if (!alreadyTapped) {
+                        //     //     // print("je suis la ");
+                        //     //     await _onRecordButtonPressed(context);
+                        //     //   } else {
+                        //     //     // print("je ne suis pas là");
+                        //     //     await _onRecordButtonPressed(context);
+                        //     //   }
+                        //     //   setState(() {
+                        //     //     alreadyTapped = !alreadyTapped;
+                        //     //   });
+                        //     // },
+                        //     gradient: const LinearGradient(
+                        //         colors: [Colors.white70, Colors.white70]),
+                        //   ),
+                        // ),
+                        child: VoiceButton(size: size * 0.3),
                       ),
                     ],
               ),
@@ -289,10 +289,10 @@ class _RecordPageState extends State<RecordPage> with TickerProviderStateMixin {
                             child: Text(
                               "Récite",
                               style: TextStyle(
-                                letterSpacing: 0.8,
+                                // letterSpacing: 0.8,
                                 color: Colors.white,
-                                fontSize: widget.height * 0.02,
-                                fontWeight: FontWeight.bold,
+                                fontSize: widget.height * 0.023,
+                                // fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
@@ -313,10 +313,10 @@ class _RecordPageState extends State<RecordPage> with TickerProviderStateMixin {
                             child: Text(
                               "Improvise",
                               style: TextStyle(
-                                letterSpacing: 0.8,
+                                // letterSpacing: 0.8,
                                 color: Colors.white,
-                                fontSize: widget.height * 0.02,
-                                fontWeight: FontWeight.bold,
+                                fontSize: widget.height * 0.023,
+                                // fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),

@@ -79,8 +79,8 @@ class _FinalPageState extends State<FinalPage> with TickerProviderStateMixin {
     int n = imagesUrls.length;
     double d = 1 / (n + 1);
     List<double> delays = List.generate(n, (index) => d * index);
-    double dmax = 80;
-    double padding = 20;
+    double dmax = height * 0.09;
+    double padding = widget.height * 0.03;
     List<double> radii = [2 * (dmax + padding), 4 * dmax + 2 * padding];
     coords = NodeDisposition.defineCoords(
         imagesUrls.length, height, width, dmax, padding);
@@ -124,7 +124,7 @@ class _FinalPageState extends State<FinalPage> with TickerProviderStateMixin {
                       BoxShadow(
                           color: Colors.purple[100]!.withOpacity(0.92),
                           offset: const Offset(0.0, 3.0),
-                          blurRadius: 25)
+                          blurRadius: 20)
                     ],
                     shape: BoxShape.circle,
                     image: DecorationImage(
@@ -173,8 +173,12 @@ class _FinalPageState extends State<FinalPage> with TickerProviderStateMixin {
               children: widgets,
             ),
             Padding(
-              padding: const EdgeInsets.only(
-                  top: 70, left: 20, right: 20, bottom: 50),
+              padding: EdgeInsets.only(
+                top: height * 0.1,
+                left: height * 0.03,
+                right: height * 0.03,
+                bottom: height * 0.06,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -183,26 +187,26 @@ class _FinalPageState extends State<FinalPage> with TickerProviderStateMixin {
                     children: [
                       Column(
                         children: [
-                          Text(
+                          const Text(
                             "Merci pour ta participation !",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               // fontFamily: "Nunito",
                               color: Colors.white,
-                              fontSize: widget.height * 0.03,
+                              fontSize: 24,
                               fontWeight: FontWeight.w800,
                             ),
                           ),
                           SizedBox(
-                            height: widget.height * 0.01,
+                            height: widget.height * 0.015,
                           ),
-                          Text(
-                            "N'hésite pas à partager l'application avec tes potes !",
+                          const Text(
+                            "N'hésite pas à partager l'application\navec tes potes !",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               // fontFamily: "Nunito",
-                              color: Colors.white,
-                              fontSize: widget.height * 0.017,
+                              color: Colors.white70,
+                              fontSize: 18,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
