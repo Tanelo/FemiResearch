@@ -2,6 +2,12 @@
 
 A new Flutter project.
 
+# Goals
+
+Writing a Research Flutter Project to get user-auto-emotion-labellised voice messages.
+We propose a little user-friendly app which allows users to record one-self on different
+emotions associated with a text. 
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
