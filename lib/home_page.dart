@@ -183,6 +183,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               Stack(
                 children: widgets,
               ),
+<<<<<<< Updated upstream
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -200,6 +201,77 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                             color: Colors.white,
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
+=======
+              Padding(
+                padding: EdgeInsets.only(
+                    top: height * 0.1,
+                    left: height * 0.03,
+                    right: height * 0.03,
+                    bottom: height * 0.06),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Align(
+                      alignment: Alignment.topCenter,
+                      child: Text(
+                        "Bienvenue sur FEMI Game",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          // fontFamily: "Nunito",
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+
+                      // GestureDetector(
+                      //   onTap: () {
+                      //     Navigator.push(
+                      //         context,
+                      //         MaterialPageRoute(
+                      //             builder: (context) => AddMessagePage(
+                      //                 myUser: widget.myUser,
+                      //                 relationships: widget.relationships,
+                      //                 friends: friends)));
+                      //   },
+                      //   child: Row(
+                      //     children: [
+                      //       Icon(
+                      //         Icons.message_rounded,
+                      //         color: Colors.grey[750],
+                      //         size: 30,
+                      //       ),
+                      //       Icon(
+                      //         Icons.person_search_outlined,
+                      //         size: 30,
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+                    ),
+                    SizedBox(height: widget.height * 0.015),
+                    const Align(
+                      alignment: Alignment.topCenter,
+                      child: Text(
+                        "Une application créée par FEMI",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          // fontFamily: "Nunito",
+                          color: Colors.white70,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                    const Spacer(),
+
+                    Align(
+                      alignment: Alignment.center,
+                      child: OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          primary: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(height * 0.045),
+>>>>>>> Stashed changes
                           ),
                         ),
 
@@ -268,6 +340,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               color: Colors.deepPurple[200]!,
             ),
           ),
+<<<<<<< Updated upstream
           const SizedBox(height: 30),
           Align(
             alignment: Alignment.center,
@@ -278,6 +351,52 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                     context,
                     MaterialPageRoute(
                         builder: (context) => RecordHome(
+=======
+          rotationController.value == 1
+              ? SizedBox(
+                  height: widget.height * 0.03,
+                )
+              : const SizedBox.shrink(),
+          Expanded(
+            child: Stack(
+              children: [
+                AnimatedOpacity(
+                  duration: const Duration(milliseconds: 300),
+                  opacity: rotationController.value,
+                  child: SizedBox(
+                    height: widget.height * 0.37,
+                    width: widget.width,
+                    child: AutoSizeText(
+                      "Nous sommes Samuel Lerman et Tanel Petelot, étudiants à CentraleSupélec et travaillons sur un projet reliant la voix avec les émotions.\n\nNous avons besoin de toi pour entraîner des réseaux de neurones profonds, dont l'objectif est de détecter les émotions directement avec le ton, le timbre, les fréquences de la voix.\n\nRassure toi les enregistrements audio ne seronts ni diffusés ni utilisés à des fins commerciales.\n\n En cliquant sur le bouton ci-dessous, tu acceptes l'utilisation anonyme de tes données.",
+                      textAlign: TextAlign.justify,
+                      style: TextStyle(
+                        // fontFamily: "MuseoSans700",
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
+                        color: Colors.deepPurple[200]!,
+                      ),
+                    ),
+                  ),
+                ),
+                AnimatedPositioned(
+                  duration: const Duration(milliseconds: 30),
+                  left: 0,
+                  right: 0,
+                  bottom:
+                      widget.height * 0.38 * (1 - rotationController.value) +
+                          widget.height * 0.03,
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: RawMaterialButton(
+                      elevation: 2.0,
+                      onPressed: () async {
+                        await pc.close();
+                        rotationController.reset();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => RecordHome(
+>>>>>>> Stashed changes
                               userId: widget.userId,
                               width: widget.width,
                               height: widget.height,
